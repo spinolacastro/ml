@@ -26,13 +26,14 @@ CREATE TABLE `items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item` varchar(12) NOT NULL,
   `timestamp` datetime NOT NULL,
-  `title` varchar(200) NOT NULL,
+  `title` text NOT NULL,
   `price` int(6) NOT NULL,
   `sold_quantity` int(6) NOT NULL,
   `available_quantity` int(6) NOT NULL,
+  `permalink` varchar(200) NOT NULL,
   `seller` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3201 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+) ENGINE=InnoDB AUTO_INCREMENT=2296 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +54,7 @@ CREATE TABLE `seller` (
   `completed_transactions` int(11) NOT NULL,
   `reputation` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=637 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1675 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -65,4 +66,4 @@ CREATE TABLE `seller` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-21 18:59:24
+-- Dump completed on 2017-08-09 15:09:07

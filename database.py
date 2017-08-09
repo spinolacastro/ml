@@ -2,10 +2,10 @@
 
 from MySQLdb import cursors
 
-FIELD_NAMES = { 'items': ('item', 'timestamp', 'title', 'price', 'sold_quantity', 'available_quantity', 'seller'),
+FIELD_NAMES = { 'items': ('item', 'timestamp', 'title', 'price', 'sold_quantity', 'available_quantity', 'permalink', 'seller'),
                 'seller': ('seller', 'timestamp', 'nickname', 'city', 'state', 'canceled_transactions', 'completed_transactions', 'reputation')
             }
-FIELD_TYPES = { 'items': ('"{1}"', '"{2}"', '"{3}"', '{4}', '{5}', '{6}', '"{7}"'),
+FIELD_TYPES = { 'items': ('"{1}"', '"{2}"', '"{3}"', '{4}', '{5}', '{6}', '"{7}"', '"{8}"'),
                 'seller': ('{1}', '"{2}"', '"{3}"', '"{4}"', '"{5}"', '{6}', '{7}', '"{8}"')
             }
 

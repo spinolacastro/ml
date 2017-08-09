@@ -14,6 +14,7 @@ import database
 mlurl = os.environ['ML_URL']
 debug = os.environ.get('DEBUG', False)
 categories = os.environ['CATEGORIES'].split(',')
+sellers = os.environ['SELLERS'].split(',')
 
 db_host = os.getenv('DATABASE_SERVICE_NAME', 'localhost')
 db_port = int(os.getenv('MYSQL_PORT', '3306'))
@@ -33,12 +34,13 @@ def make_item(item):
         'price': item['price'],
         'sold_quantity': item['sold_quantity'],
         'available_quantity': item['available_quantity'],
+        'permalink': item['permalink'],
         'seller': item['seller']['id']
     }
 
-def getitems(category):
+def getitems(seller, category):
 
-    url = mlurl+'/sites/MLA/search?category='+category+'&limit=200'
+    url = mlurl+'/sites/MLA/search?seller_id='+seller+'&category='+category+'&limit=200'
     r = requests.get(url)
     r = r.json()
     for item in r['results']:
@@ -65,7 +67,8 @@ def getsellers():
         r = requests.get(url)
         database.insert(conn, 'seller', make_seller(r.json()))
 
-for c in categories:
-    getitems(c)
+for s in sellers:
+    for c in categories:
+        getitems(s,c)
 
 getsellers()
