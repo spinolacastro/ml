@@ -22,7 +22,7 @@ db_user = os.getenv('MYSQL_USER', 'root')
 db_passwd = os.getenv('MYSQL_PASSWORD', 'root')
 db_name = os.getenv('MYSQL_DATABASE', 'ml')
 conn = MySQLdb.connect(host=db_host, user=db_user, port=db_port,
-                    passwd=db_passwd,db=db_name)
+                    passwd=db_passwd,db=db_name, charset='utf8', init_command='SET NAMES UTF8')
 
 now = datetime.utcnow()
 
@@ -38,13 +38,30 @@ def make_item(item):
         'seller': item['seller']['id']
     }
 
-def getitems(seller, category):
+def getitems(seller):
 
-    url = mlurl+'/sites/MLA/search?seller_id='+seller+'&category='+category+'&limit=200'
-    r = requests.get(url)
-    r = r.json()
-    for item in r['results']:
-        database.insert(conn, 'items', make_item(item))
+    #fire the request add do a list
+    items = []
+    for category in categories:
+        url = mlurl+'/sites/MLA/search?seller_id='+seller+'&category='+category+'&limit=200'
+        print(url)
+        r = requests.get(url)
+        r = r.json()
+        for item in r['results']:
+            items.append(make_item(item))
+
+    #remove duplicates
+    seen = set()
+    new_l = []
+    for d in items:
+        t = tuple(d.items())
+        if t not in seen:
+            seen.add(t)
+            new_l.append(d)
+
+    #populate db
+    for i in new_l:
+        database.insert(conn, 'items', i)
 
 
 def make_seller(seller):
@@ -68,7 +85,6 @@ def getsellers():
         database.insert(conn, 'seller', make_seller(r.json()))
 
 for s in sellers:
-    for c in categories:
-        getitems(s,c)
+    getitems(s)
 
 getsellers()
